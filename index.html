@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Генератор никнеймов</title>
+  <title>Nickname Generator</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
     #nickname { font-size: 24px; margin: 20px; }
@@ -11,27 +11,32 @@
 </head>
 <body>
 
-  <h1>Генератор никнеймов</h1>
-  <div id="nickname">Нажми "Сгенерировать"</div>
-  <button onclick="generateNickname()">Сгенерировать</button>
-  <button onclick="copyNickname()">Скопировать</button>
+  <h1>Nickname Generator</h1>
+  <div id="nickname">Click "Generate"</div>
+  <button onclick="generateNickname()">Generate</button>
+  <button onclick="copyNickname()">Copy</button>
 
   <script>
-    const adjectives = ["Смелый", "Быстрый", "Лунный", "Тёмный", "Весёлый"];
-    const nouns = ["Волк", "Лис", "Дракон", "Кот", "Пингвин"];
+    const adjectives = ["Brave", "Swift", "Lunar", "Dark", "Happy", "Clever", "Mystic", "Wild", "Silent", "Golden"];
+    const nouns = ["Wolf", "Fox", "Dragon", "Cat", "Penguin", "Raven", "Tiger", "Phoenix", "Shark", "Eagle"];
 
     function generateNickname() {
       const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
       const noun = nouns[Math.floor(Math.random() * nouns.length)];
-      const nickname = adj + noun;
+      const randomDigits = Math.floor(100 + Math.random() * 900); // от 100 до 999
+      const nickname = adj + "_" + noun + randomDigits;
       document.getElementById("nickname").textContent = nickname;
     }
 
     function copyNickname() {
       const nickname = document.getElementById("nickname").textContent;
+      if (nickname === "Click \"Generate\"") {
+        alert("Please generate a nickname first!");
+        return;
+      }
       navigator.clipboard.writeText(nickname)
-        .then(() => alert("Никнейм скопирован: " + nickname))
-        .catch(err => alert("Ошибка копирования: " + err));
+        .then(() => alert("Nickname copied: " + nickname))
+        .catch(err => alert("Copy error: " + err));
     }
   </script>
 
