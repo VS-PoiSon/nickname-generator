@@ -4,39 +4,115 @@
   <meta charset="UTF-8">
   <title>Nickname Generator</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-    #nickname { font-size: 24px; margin: 20px; }
-    button { padding: 10px 20px; font-size: 16px; margin: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f9f9f9;
+    }
+    #nickname-list {
+      font-size: 18px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: left;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .nickname-item {
+      margin: 6px 0;
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    .nickname-item:hover {
+      background-color: #f0f8ff;
+      font-weight: bold;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 5px 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    h1 {
+      color: #333;
+    }
+    #status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #28a745;
+      min-height: 20px;
+    }
   </style>
 </head>
 <body>
 
   <h1>Nickname Generator</h1>
-  <div id="nickname">Click "Generate"</div>
-  <button onclick="generateNickname()">Generate</button>
-  <button onclick="copyNickname()">Copy</button>
+  <div id="nickname-list">Click "Generate" to create 20 nicknames</div>
+  <div id="status"></div>
+  <button onclick="generateNickname()">Generate 20 Nicknames</button>
 
   <script>
-    const adjectives = ["Brave", "Swift", "Lunar", "Dark", "Happy", "Clever", "Mystic", "Wild", "Silent", "Golden"];
-    const nouns = ["Wolf", "Fox", "Dragon", "Cat", "Penguin", "Raven", "Tiger", "Phoenix", "Shark", "Eagle"];
+    const adjectives = [
+      "Brave", "Swift", "Lunar", "Dark", "Happy", "Clever", "Mystic", "Wild", "Silent", "Golden",
+      "Fierce", "Crimson", "Iron", "Shadow", "Electric", "Noble", "Ancient", "Frozen", "Blazing",
+      "Sly", "Mighty", "Stealthy", "Cosmic", "Rogue", "Emerald", "Vivid", "Phantom", "Royal", "Zen",
+      "Daring", "Epic", "Neon", "Cursed", "Divine", "Savage", "Velvet", "Ashen", "Storm", "Grim",
+      "Radiant", "Twilight", "Obsidian", "Crystal", "Spectral", "Majestic", "Nova", "Astral", "Void"
+    ];
+
+    const nouns = [
+      "Wolf", "Fox", "Dragon", "Cat", "Penguin", "Raven", "Tiger", "Phoenix", "Shark", "Eagle",
+      "Lion", "Cobra", "Falcon", "Panther", "Kraken", "Wraith", "Viper", "Owl", "Hydra", "Scorpion",
+      "Griffin", "Leopard", "Yeti", "Unicorn", "Basilisk", "Mantis", "Golem", "Serpent", "Moth",
+      "Jaguar", "Marauder", "Warlock", "Ninja", "Samurai", "Sorcerer", "Knight", "Wizard", "Rogue",
+      "Spartan", "Valkyrie", "Templar", "Paladin", "Druid", "Assassin", "Berserker", "Oracle", "Titan",
+      "Sentinel", "Revenant"
+    ];
 
     function generateNickname() {
-      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-      const noun = nouns[Math.floor(Math.random() * nouns.length)];
-      const randomDigits = Math.floor(100 + Math.random() * 900); // от 100 до 999
-      const nickname = adj + "_" + noun + randomDigits;
-      document.getElementById("nickname").textContent = nickname;
+      const listElement = document.getElementById("nickname-list");
+      let nicknamesHTML = '';
+
+      for (let i = 0; i < 20; i++) {
+        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        const randomDigits = Math.floor(100 + Math.random() * 900); // от 100 до 999
+        const nickname = adj + "_" + noun + randomDigits;
+        nicknamesHTML += `<div class="nickname-item" onclick="copySingle(this)">${nickname}</div>`;
+      }
+
+      listElement.innerHTML = nicknamesHTML;
     }
 
-    function copyNickname() {
-      const nickname = document.getElementById("nickname").textContent;
-      if (nickname === "Click \"Generate\"") {
-        alert("Please generate a nickname first!");
-        return;
-      }
-      navigator.clipboard.writeText(nickname)
-        .then(() => alert("Nickname copied: " + nickname))
-        .catch(err => alert("Copy error: " + err));
+    function copySingle(element) {
+      const text = element.textContent;
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          showStatus(`Copied: ${text}`);
+        })
+        .catch(err => {
+          showStatus(`Error: ${err}`, true);
+        });
+    }
+
+    function showStatus(message, isError = false) {
+      const status = document.getElementById("status");
+      status.textContent = message;
+      status.style.color = isError ? "#dc3545" : "#28a745";
+      setTimeout(() => {
+        status.textContent = "";
+      }, 3000);
     }
   </script>
 
