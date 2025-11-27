@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Генератор никнеймов</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    #nickname { font-size: 24px; margin: 20px; }
+    button { padding: 10px 20px; font-size: 16px; margin: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>Генератор никнеймов</h1>
+  <div id="nickname">Нажми "Сгенерировать"</div>
+  <button onclick="generateNickname()">Сгенерировать</button>
+  <button onclick="copyNickname()">Скопировать</button>
+
+  <script>
+    const adjectives = ["Смелый", "Быстрый", "Лунный", "Тёмный", "Весёлый"];
+    const nouns = ["Волк", "Лис", "Дракон", "Кот", "Пингвин"];
+
+    function generateNickname() {
+      const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+      const noun = nouns[Math.floor(Math.random() * nouns.length)];
+      const nickname = adj + noun;
+      document.getElementById("nickname").textContent = nickname;
+    }
+
+    function copyNickname() {
+      const nickname = document.getElementById("nickname").textContent;
+      navigator.clipboard.writeText(nickname)
+        .then(() => alert("Никнейм скопирован: " + nickname))
+        .catch(err => alert("Ошибка копирования: " + err));
+    }
+  </script>
+
+</body>
+</html>
